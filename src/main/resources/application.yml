@@ -1,0 +1,15 @@
+server:
+  port: 8088
+
+
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/   # 设置Thymeleaf模板文件的位置
+    suffix: .html                   # 模板文件的后缀
+    cache: false                    # 是否启用模板缓存（开发时通常禁用）
+    mode: HTML                      # 设置Thymeleaf解析模式
+
+  cache:
+    type: ehcache
+
+

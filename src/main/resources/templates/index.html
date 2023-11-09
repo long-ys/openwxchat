@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>优领用工-我要招聘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .page {
+            background: linear-gradient(to bottom, #28AC86 50%, #DBEAE7 50%);
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .page .main{
+            background: url('https://img.youlingrc.com/images/20231018142538.png') no-repeat center;
+            background-size: contain;
+            width: 100%;
+            height: 100vh;
+        }
+        .btn{
+            width: 80%;
+            height: 60px;
+            background: #28AC86;
+            color: white;
+            position: absolute;
+            left: 10%;
+            bottom: 8%;
+            font-size: 2.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            box-shadow: 5px 6px 16px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="main">
+        <div class="btn">我要招聘</div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
+
+    $(function(){
+        let openlink = '';
+        $.ajax({
+            url: '/wchat/api/generatescheme',
+            type: 'POST',  // 或者 'GET'，根据您的需求
+            data: JSON.stringify({
+                path: "pages/home/home",
+                query: "source=8"
+            }),
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (res) {
+                // 请求成功时的处理逻辑
+                console.log('请求成功', res);
+                if (res.errcode === 0) {
+                    openlink = res.openlink
+                }
+                console.log(openlink)
+            },
+            error: function (xhr, status, error) {
+                // 请求失败时的处理逻辑
+                console.log('请求失败', status, error);
+            }
+        });
+
+        $(".btn").click(function () {
+            // 检测用户代理字符串
+            var userAgent = navigator.userAgent;
+            console.log('userAgent',userAgent)
+
+            // 定义PC浏览器的关键词
+            var pcKeywords = ["Windows", "Macintosh"];
+
+            // 检查用户代理是否包含PC关键词
+            var isPC = pcKeywords.some(function (keyword) {
+                return userAgent.indexOf(keyword) !== -1;
+            });
+            // 如果是PC浏览器，显示提示消息
+            // if (isPC) {
+            //     alert("请使用手机浏览器打开。");
+            //     return
+            // }
+
+            window.location.href = openlink
+        });
+
+    })
+</script>
+</body>
+</html>
